@@ -1,0 +1,379 @@
+/* ============================================================
+   Bangkok Urban Well-Being WebGIS — styles.css
+   ============================================================ */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --bg:          #0d1117;
+  --bg2:         #161b22;
+  --bg3:         #21262d;
+  --border:      #30363d;
+  --text:        #e6edf3;
+  --text-muted:  #8b949e;
+  --accent:      #58a6ff;
+
+  --mrt:   #00c8ff;
+  --res:   #ff9f43;
+  --road:  #df2121;
+
+  /* Landuse palette */
+  --lu-U:  #f97316;
+  --lu-A:  #22c55e;
+  --lu-F:  #15803d;
+  --lu-W:  #38bdf8;
+  --lu-M:  #a3e635;
+  --lu-main: #a78bfa; /* purple accent for "landuse" UI elements */
+
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.5);
+  --header-h: 64px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Sarabun', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  height: var(--header-h);
+  background: linear-gradient(90deg, #0a1628 0%, #0d1f38 60%, #0a1224 100%);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-left { display: flex; align-items: center; gap: 12px; }
+
+.header-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--mrt), #0077b6);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--bg); font-size: 18px; flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(0,200,255,0.35);
+}
+
+.header-text h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px; font-weight: 700;
+  color: var(--text); letter-spacing: 0.5px;
+}
+.header-text p { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+.header-right { display: flex; gap: 8px; flex-shrink: 0; }
+
+.stat-chip {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 12px; font-size: 12px;
+  color: var(--text-muted); display: flex; align-items: center; gap: 6px;
+  transition: all .2s;
+}
+.stat-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Main Layout ---------- */
+.main-layout {
+  display: grid;
+  grid-template-columns: 248px 1fr 252px;
+  height: calc(100vh - var(--header-h));
+  overflow: hidden;
+}
+
+/* ---------- Side Panels ---------- */
+.side-panel, .info-panel {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.info-panel { border-right: none; border-left: 1px solid var(--border); }
+
+/* ---------- Panel Cards ---------- */
+.panel-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.panel-card-header {
+  background: linear-gradient(90deg, rgba(88,166,255,0.12), transparent);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 12px; font-weight: 600;
+  color: var(--accent);
+  display: flex; align-items: center; gap: 6px;
+  letter-spacing: 0.3px;
+}
+
+.panel-card-body { padding: 10px 12px; }
+
+/* ---------- Layer Items ---------- */
+.layer-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.layer-item:last-child { border-bottom: none; }
+
+.layer-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.mrt-dot  { background: var(--mrt);     box-shadow: 0 0 6px var(--mrt); }
+.res-dot  { background: var(--res);     box-shadow: 0 0 6px var(--res); }
+.road-dot { background: var(--road); }
+.lu-dot   { background: var(--lu-main); box-shadow: 0 0 6px var(--lu-main); }
+
+.layer-info { flex: 1; min-width: 0; }
+.layer-name { display: block; font-size: 12px; font-weight: 600; color: var(--text); }
+.layer-desc { display: block; font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+/* ---------- Toggle Switch ---------- */
+.toggle-switch {
+  position: relative; display: inline-block;
+  width: 36px; height: 20px; flex-shrink: 0; cursor: pointer;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0;
+  background: var(--border); border-radius: 20px; transition: .25s;
+}
+.slider::before {
+  content: ''; position: absolute;
+  width: 14px; height: 14px; background: #fff; border-radius: 50%;
+  left: 3px; top: 3px; transition: .25s;
+}
+input:checked + .slider { background: var(--accent); }
+input:checked + .slider::before { transform: translateX(16px); }
+
+/* ---------- Zoom Buttons ---------- */
+.zoom-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+.zoom-btn {
+  padding: 8px 6px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg); color: var(--text-muted);
+  font-family: 'Sarabun', sans-serif; font-size: 11px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: all .2s;
+}
+.zoom-btn:hover  { color: var(--text); border-color: var(--accent); }
+.mrt-btn:hover   { border-color: var(--mrt);  color: var(--mrt);  }
+.res-btn:hover   { border-color: var(--res);  color: var(--res);  }
+.road-btn:hover  { border-color: var(--road); color: var(--road); }
+.lu-btn:hover    { border-color: var(--lu-main); color: var(--lu-main); }
+.reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Basemap Options ---------- */
+.basemap-options { display: flex; flex-direction: column; gap: 6px; }
+
+.basemap-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 12px; color: var(--text-muted);
+  transition: all .2s;
+}
+.basemap-opt input { display: none; }
+.basemap-opt:hover,
+.basemap-opt.active {
+  border-color: var(--accent); color: var(--accent);
+  background: rgba(88,166,255,0.08);
+}
+
+/* ---------- Legend ---------- */
+.legend-body { display: flex; flex-direction: column; gap: 7px; }
+
+.legend-group-label {
+  font-size: 10px; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.5px;
+  text-transform: uppercase; margin-top: 4px;
+}
+
+.legend-divider {
+  border-top: 1px solid var(--border); margin: 4px 0;
+}
+
+.legend-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--text-muted);
+}
+
+.legend-line { width: 28px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+.mrt-line    { background: var(--mrt); }
+.road-line   { background: var(--road); }
+
+.legend-circle { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.res-circle    { background: var(--res); }
+
+.legend-area {
+  width: 28px; height: 14px; border-radius: 3px;
+  flex-shrink: 0; border: 1.5px solid;
+}
+
+/* ---------- Map Container ---------- */
+.map-container { position: relative; display: flex; flex-direction: column; }
+#map { flex: 1; background: var(--bg); }
+
+/* ---------- Map Footer ---------- */
+.map-footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 6px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted);
+}
+
+.status-dot {
+  display: inline-block; width: 7px; height: 7px;
+  border-radius: 50%; background: #888; margin-right: 5px;
+}
+.status-dot.active {
+  background: #3fb950; box-shadow: 0 0 6px #3fb950;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
+
+/* ---------- Loading Overlay ---------- */
+#loading-overlay {
+  position: absolute; inset: 0;
+  background: rgba(13,17,23,0.88);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; z-index: 2000; font-size: 14px; color: var(--text-muted);
+  transition: opacity .4s;
+}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+.loading-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--mrt); border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Stat Row ---------- */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.stat-item {
+  text-align: center; padding: 10px 6px;
+  border-radius: 6px; border: 1px solid var(--border);
+  transition: border-color .2s;
+}
+.stat-item:hover { border-color: var(--accent); }
+
+.stat-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 20px; font-weight: 700;
+}
+.stat-label { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+.mrt-stat .stat-value { color: var(--mrt); }
+.res-stat .stat-value { color: var(--res); }
+.lu-stat  .stat-value { color: var(--lu-main); }
+.lu-stat              { border-color: rgba(167,139,250,0.25); }
+
+/* ---------- Feature Info ---------- */
+#feature-info { min-height: 80px; }
+
+.empty-state { text-align: center; color: var(--text-muted); padding: 16px 0; }
+.empty-state i { font-size: 24px; margin-bottom: 8px; opacity: .5; }
+.empty-state p { font-size: 12px; line-height: 1.6; }
+
+.feature-card { display: flex; flex-direction: column; gap: 8px; }
+
+.feature-title { font-size: 13px; font-weight: 700; color: var(--text); }
+
+.feature-type {
+  font-size: 10px; padding: 2px 8px; border-radius: 12px;
+  display: inline-block; margin-bottom: 2px; font-weight: 600;
+}
+.type-mrt     { background: rgba(0,200,255,0.15);  color: var(--mrt); }
+.type-res     { background: rgba(255,159,67,0.15);  color: var(--res); }
+.type-road    { background: rgba(223,33,33,0.15);   color: var(--road); }
+.type-landuse { background: rgba(167,139,250,0.15); color: var(--lu-main); }
+
+.feature-row {
+  display: flex; justify-content: space-between;
+  font-size: 11px; border-bottom: 1px solid var(--border); padding: 4px 0;
+}
+.feature-row:last-child { border-bottom: none; }
+.feature-key { color: var(--text-muted); }
+.feature-val { color: var(--text); font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+
+/* ---------- Landuse Legend Detail (right panel) ---------- */
+.lu-legend-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid var(--border);
+}
+.lu-legend-item:last-child { border-bottom: none; }
+
+.lu-dot-lg {
+  width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0;
+}
+
+.lu-code { font-size: 11px; font-weight: 600; color: var(--text); }
+.lu-desc { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+/* ---------- About ---------- */
+.about-text {
+  font-size: 12px; color: var(--text-muted);
+  line-height: 1.75; margin-bottom: 10px;
+}
+.about-text strong { color: var(--accent); }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid rgba(88,166,255,0.25);
+  color: var(--accent); border-radius: 12px;
+  padding: 2px 10px; font-size: 10px;
+}
+
+/* ---------- Leaflet overrides ---------- */
+.leaflet-control-zoom {
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important; overflow: hidden;
+}
+.leaflet-control-zoom a {
+  background: var(--bg3) !important; color: var(--text) !important;
+  border-bottom: 1px solid var(--border) !important;
+  width: 30px !important; height: 30px !important;
+  line-height: 30px !important; font-size: 16px !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--bg) !important; color: var(--accent) !important;
+}
+.leaflet-popup-content-wrapper {
+  background: var(--bg3) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow) !important;
+}
+.leaflet-popup-tip   { background: var(--bg3) !important; }
+.leaflet-popup-content { font-family: 'Sarabun', sans-serif !important; font-size: 13px; }
+.leaflet-attribution-flag { display: none !important; }
+.leaflet-control-attribution {
+  background: rgba(13,17,23,0.75) !important;
+  color: var(--text-muted) !important; font-size: 10px !important;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }

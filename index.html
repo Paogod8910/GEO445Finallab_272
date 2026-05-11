@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangkok Urban Well-Being | WebGIS</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-left">
+      <div class="header-icon"><i class="fa-solid fa-city"></i></div>
+      <div class="header-text">
+        <h1>Bangkok Urban Well-Being</h1>
+        <p>ระบบแผนที่เชิงพื้นที่เพื่อวิเคราะห์คุณภาพชีวิตเมือง กรุงเทพมหานคร</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="stat-chip"><i class="fa-solid fa-train-subway"></i> MRT</div>
+      <div class="stat-chip"><i class="fa-solid fa-utensils"></i> ร้านอาหาร</div>
+      <div class="stat-chip"><i class="fa-solid fa-map"></i> การใช้ที่ดิน</div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- LEFT PANEL -->
+    <aside class="side-panel">
+
+      <!-- Layer Control -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-layer-group"></i> ชั้นข้อมูล
+        </div>
+        <div class="panel-card-body">
+
+          <div class="layer-item">
+            <div class="layer-dot mrt-dot"></div>
+            <div class="layer-info">
+              <span class="layer-name">สายรถไฟฟ้า MRT</span>
+              <span class="layer-desc">เส้นทางและสถานี</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="mrtCheck" checked onchange="toggleLayer('mrt')">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="layer-item">
+            <div class="layer-dot res-dot"></div>
+            <div class="layer-info">
+              <span class="layer-name">ร้านอาหาร</span>
+              <span class="layer-desc">จุดบริการอาหาร</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="resCheck" checked onchange="toggleLayer('res')">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="layer-item">
+            <div class="layer-dot road-dot"></div>
+            <div class="layer-info">
+              <span class="layer-name">เครือข่ายถนน</span>
+              <span class="layer-desc">ถนนสายหลัก</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="roadCheck" onchange="toggleLayer('road')">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="layer-item">
+            <div class="layer-dot lu-dot"></div>
+            <div class="layer-info">
+              <span class="layer-name">การใช้ที่ดิน (LUBKK)</span>
+              <span class="layer-desc">ประเภทการใช้ประโยชน์</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="landuseCheck" onchange="toggleLayer('landuse')">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Zoom to Layer -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-magnifying-glass-location"></i> Zoom to Layer
+        </div>
+        <div class="panel-card-body zoom-buttons">
+          <button class="zoom-btn mrt-btn" onclick="zoomToLayer('mrt')">
+            <i class="fa-solid fa-train-subway"></i> MRT
+          </button>
+          <button class="zoom-btn res-btn" onclick="zoomToLayer('res')">
+            <i class="fa-solid fa-utensils"></i> ร้านอาหาร
+          </button>
+          <button class="zoom-btn road-btn" onclick="zoomToLayer('road')">
+            <i class="fa-solid fa-road"></i> ถนน
+          </button>
+          <button class="zoom-btn lu-btn" onclick="zoomToLayer('landuse')">
+            <i class="fa-solid fa-map"></i> Landuse
+          </button>
+          <button class="zoom-btn reset-btn" onclick="resetMap()" style="grid-column:span 2">
+            <i class="fa-solid fa-house"></i> Reset View
+          </button>
+        </div>
+      </section>
+
+      <!-- Basemap Selector -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-globe"></i> Basemap
+        </div>
+        <div class="panel-card-body">
+          <div class="basemap-options">
+            <label class="basemap-opt active" id="bm-streets">
+              <input type="radio" name="basemap" value="streets" checked onchange="changeBasemap(this.value)">
+              <i class="fa-solid fa-road"></i> Streets
+            </label>
+            <label class="basemap-opt" id="bm-satellite">
+              <input type="radio" name="basemap" value="satellite" onchange="changeBasemap(this.value)">
+              <i class="fa-solid fa-satellite"></i> Satellite
+            </label>
+            <label class="basemap-opt" id="bm-dark">
+              <input type="radio" name="basemap" value="dark" onchange="changeBasemap(this.value)">
+              <i class="fa-solid fa-moon"></i> Dark
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Legend -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-circle-info"></i> สัญลักษณ์
+        </div>
+        <div class="panel-card-body legend-body">
+
+          <div class="legend-group-label">ชั้นข้อมูลหลัก</div>
+          <div class="legend-item">
+            <div class="legend-line mrt-line"></div>
+            <span>สายรถไฟฟ้า MRT</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle res-circle"></div>
+            <span>ร้านอาหาร</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-line road-line"></div>
+            <span>ถนนสายหลัก</span>
+          </div>
+
+          <div class="legend-divider"></div>
+          <div class="legend-group-label">การใช้ที่ดิน (LUBKK)</div>
+
+          <div class="legend-item">
+            <div class="legend-area" style="background:rgba(249,115,22,0.30);border-color:#f97316"></div>
+            <span>ตัวเมืองและย่านการค้า (U)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-area" style="background:rgba(34,197,94,0.30);border-color:#22c55e"></div>
+            <span>เกษตรกรรม (A)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-area" style="background:rgba(21,128,61,0.30);border-color:#15803d"></div>
+            <span>ป่าชายเลน (F)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-area" style="background:rgba(56,189,248,0.30);border-color:#38bdf8"></div>
+            <span>แหล่งน้ำ (W)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-area" style="background:rgba(163,230,53,0.30);border-color:#a3e635"></div>
+            <span>ทุ่งหญ้าธรรมชาติ (M)</span>
+          </div>
+
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- MAP -->
+    <div class="map-container">
+      <div id="map"></div>
+
+      <div class="map-footer">
+        <span id="coord-display"><i class="fa-solid fa-crosshairs"></i> เลื่อนเมาส์เพื่อดูพิกัด</span>
+        <span id="layer-status">
+          <span class="status-dot active"></span> ระบบพร้อมใช้งาน
+        </span>
+      </div>
+
+      <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>กำลังโหลดข้อมูล...</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <aside class="info-panel">
+
+      <!-- Stats -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-chart-bar"></i> สรุปข้อมูล
+        </div>
+        <div class="panel-card-body">
+          <div class="stat-row">
+            <div class="stat-item mrt-stat">
+              <div class="stat-value" id="mrt-count">—</div>
+              <div class="stat-label">สถานี MRT</div>
+            </div>
+            <div class="stat-item res-stat">
+              <div class="stat-value" id="res-count">—</div>
+              <div class="stat-label">ร้านอาหาร</div>
+            </div>
+          </div>
+          <div class="stat-row" style="margin-top:8px">
+            <div class="stat-item lu-stat" style="grid-column:span 2">
+              <div class="stat-value" id="lu-count">—</div>
+              <div class="stat-label">แปลง Landuse (LUBKK)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Info -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-table-list"></i> ข้อมูล Feature
+        </div>
+        <div class="panel-card-body" id="feature-info">
+          <div class="empty-state">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <p>คลิกที่ Feature บนแผนที่<br>เพื่อดูข้อมูลรายละเอียด</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Landuse Legend Detail -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-map-location-dot"></i> ประเภทการใช้ที่ดิน
+        </div>
+        <div class="panel-card-body">
+          <div class="lu-legend-item">
+            <div class="lu-dot-lg" style="background:#f97316;box-shadow:0 0 6px #f97316"></div>
+            <div>
+              <div class="lu-code">U — ตัวเมืองและย่านการค้า</div>
+              <div class="lu-desc">Urban / Commercial Zone</div>
+            </div>
+          </div>
+          <div class="lu-legend-item">
+            <div class="lu-dot-lg" style="background:#22c55e;box-shadow:0 0 6px #22c55e"></div>
+            <div>
+              <div class="lu-code">A — เกษตรกรรม</div>
+              <div class="lu-desc">Agricultural Area</div>
+            </div>
+          </div>
+          <div class="lu-legend-item">
+            <div class="lu-dot-lg" style="background:#15803d;box-shadow:0 0 6px #15803d"></div>
+            <div>
+              <div class="lu-code">F — ป่าชายเลน</div>
+              <div class="lu-desc">Mangrove Forest</div>
+            </div>
+          </div>
+          <div class="lu-legend-item">
+            <div class="lu-dot-lg" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></div>
+            <div>
+              <div class="lu-code">W — แหล่งน้ำ</div>
+              <div class="lu-desc">Water Body</div>
+            </div>
+          </div>
+          <div class="lu-legend-item">
+            <div class="lu-dot-lg" style="background:#a3e635;box-shadow:0 0 6px #a3e635"></div>
+            <div>
+              <div class="lu-code">M — ทุ่งหญ้าธรรมชาติ</div>
+              <div class="lu-desc">Natural Grassland</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="panel-card">
+        <div class="panel-card-header">
+          <i class="fa-solid fa-book-open"></i> เกี่ยวกับ
+        </div>
+        <div class="panel-card-body">
+          <p class="about-text">
+            ระบบ WebGIS วิเคราะห์ <strong>Urban Well-Being</strong> กรุงเทพฯ 
+            แสดงข้อมูลการเดินทาง ร้านอาหาร และการใช้ที่ดิน (LUBKK) 
+            บนแผนที่เชิงโต้ตอบ
+          </p>
+          <div class="tag-row">
+            <span class="tag">Leaflet.js</span>
+            <span class="tag">GeoJSON</span>
+            <span class="tag">LUBKK</span>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

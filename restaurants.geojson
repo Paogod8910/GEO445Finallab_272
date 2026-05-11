@@ -1,0 +1,205 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Thipsamai Pad Thai"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5032, 13.7531]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Jeh O Chula"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5267, 13.7324]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "After You Dessert Cafe"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5395, 13.7466]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Somboon Seafood"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5338, 13.7428]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Savoey Restaurant"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5411, 13.7449]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Baan Khanitha"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5462, 13.7244]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Greyhound Cafe"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5678, 13.7301]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MK Restaurant"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5384, 13.7469]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shabushi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5692, 13.7461]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fuji Japanese Restaurant"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5607, 13.7448]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bonchon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5715, 13.7452]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Yayoi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5622, 13.7474]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "On The Table"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5653, 13.7445]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kouen Sushi Bar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5731, 13.7468]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mo-Mo-Paradise"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5698, 13.7432]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "S&P Restaurant"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5319, 13.7514]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ตี๋น้อย สุกี้"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5481, 13.7289]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "สุกี้ตี๋น้อย รัชดา"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5745, 13.7801]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "KFC"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5331, 13.7456]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "McDonald's"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.5374, 13.7441]
+      }
+    }
+  ]
+}
